@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(100, 8px);
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+}
+
+.cell {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  cursor: pointer;
+}
+
+.cell.filled {
+  background: #000;
+}
