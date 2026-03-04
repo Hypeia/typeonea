@@ -1,13 +1,164 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grid</title>
-    <link rel="stylesheet" href="/src/style.css" />
-  </head>
-  <body>
-    <div id="grid"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>typeonea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+  <header class="header">
+    <span class="logo">typeonea</span>
+    <span class="tagline">REAL LIFE CHARACTER SYSTEM</span>
+  </header>
+
+  <svg id="connections" class="connections-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+  <main class="scene">
+    <!-- 캐릭터 (화면 중앙) -->
+    <div class="character" id="character">
+      <div class="char-ring char-ring--outer"></div>
+      <div class="char-ring char-ring--inner"></div>
+      <div class="char-core"></div>
+      <span class="char-label" id="char-label">PLAYER</span>
+    </div>
+
+    <!-- 우상단: 신체 정보 -->
+    <div class="panel panel--profile" id="panel-profile">
+      <div class="panel-header">
+        <span class="panel-tag">PROFILE</span>
+        <span class="panel-title">신체 정보</span>
+      </div>
+      <ul class="panel-list">
+        <li class="info-row">
+          <span class="info-label">이름</span>
+          <span class="info-value" contenteditable="true" data-key="name" spellcheck="false">—</span>
+        </li>
+        <li class="info-row info-row--age">
+          <span class="info-label">나이</span>
+          <div class="age-content" id="age-content">
+            <span class="age-birthdate" id="age-birthdate"></span>
+            <span class="age-value" id="age-value">—</span>
+          </div>
+          <button class="pick-btn" id="age-btn">선택</button>
+        </li>
+        <li class="info-row">
+          <span class="info-label">키</span>
+          <div class="unit-input-wrap">
+            <input class="unit-input" type="number" id="height-input" data-key="height" min="100" max="250"
+              placeholder="—" />
+            <span class="unit-suffix">cm</span>
+          </div>
+        </li>
+        <li class="info-row">
+          <span class="info-label">몸무게</span>
+          <div class="unit-input-wrap">
+            <input class="unit-input" type="number" id="weight-input" data-key="weight" min="20" max="300"
+              placeholder="—" />
+            <span class="unit-suffix">kg</span>
+          </div>
+        </li>
+        <li class="info-row">
+          <span class="info-label">혈액형</span>
+          <span class="blood-selected" id="blood-selected">—</span>
+          <button class="pick-btn" id="blood-btn">선택</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 우하단: 수행 능력 스탯 -->
+    <div class="panel panel--stats" id="panel-stats">
+      <div class="panel-header">
+        <span class="panel-tag">STATS</span>
+        <span class="panel-title">수행 능력</span>
+      </div>
+      <ul class="panel-list">
+        <li class="stat-row" data-stat="strength">
+          <span class="stat-label">근력</span>
+          <div class="stat-bar">
+            <div class="stat-bar__fill"></div>
+          </div>
+          <span class="stat-num" contenteditable="true" data-key="strength" spellcheck="false">50</span>
+        </li>
+        <li class="stat-row" data-stat="speed">
+          <span class="stat-label">달리기</span>
+          <div class="stat-bar">
+            <div class="stat-bar__fill"></div>
+          </div>
+          <span class="stat-num" contenteditable="true" data-key="speed" spellcheck="false">50</span>
+        </li>
+        <li class="stat-row" data-stat="endurance">
+          <span class="stat-label">지구력</span>
+          <div class="stat-bar">
+            <div class="stat-bar__fill"></div>
+          </div>
+          <span class="stat-num" contenteditable="true" data-key="endurance" spellcheck="false">50</span>
+        </li>
+        <li class="stat-row" data-stat="agility">
+          <span class="stat-label">민첩성</span>
+          <div class="stat-bar">
+            <div class="stat-bar__fill"></div>
+          </div>
+          <span class="stat-num" contenteditable="true" data-key="agility" spellcheck="false">50</span>
+        </li>
+        <li class="stat-row" data-stat="flexibility">
+          <span class="stat-label">유연성</span>
+          <div class="stat-bar">
+            <div class="stat-bar__fill"></div>
+          </div>
+          <span class="stat-num" contenteditable="true" data-key="flexibility" spellcheck="false">50</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- 날짜 피커 팝업 -->
+  <div class="picker-overlay" id="picker-overlay">
+    <div class="picker-modal">
+      <div class="picker-body">
+        <div class="picker-center-highlight"></div>
+        <div class="picker-col-wrap picker-col-wrap--year">
+          <div class="picker-col" id="col-year"></div>
+        </div>
+        <span class="picker-unit">년</span>
+        <div class="picker-col-wrap picker-col-wrap--sm">
+          <div class="picker-col" id="col-month"></div>
+        </div>
+        <span class="picker-unit">월</span>
+        <div class="picker-col-wrap picker-col-wrap--sm">
+          <div class="picker-col" id="col-day"></div>
+        </div>
+        <span class="picker-unit">일</span>
+      </div>
+      <button class="picker-confirm" id="picker-confirm">확인</button>
+    </div>
+  </div>
+
+  <!-- 혈액형 팝업 -->
+  <div class="blood-overlay" id="blood-overlay">
+    <div class="blood-modal">
+      <span class="blood-modal-title">혈액형 선택</span>
+      <div class="blood-grid">
+        <button class="blood-option" data-blood="A+">A+</button>
+        <button class="blood-option" data-blood="A-">A−</button>
+        <button class="blood-option" data-blood="B+">B+</button>
+        <button class="blood-option" data-blood="B-">B−</button>
+        <button class="blood-option" data-blood="AB+">AB+</button>
+        <button class="blood-option" data-blood="AB-">AB−</button>
+        <button class="blood-option" data-blood="O+">O+</button>
+        <button class="blood-option" data-blood="O-">O−</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
